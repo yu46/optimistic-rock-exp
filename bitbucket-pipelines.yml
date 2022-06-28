@@ -1,0 +1,25 @@
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: docker/compose:1.23.2
+
+clone:
+  depth: 5       # include the last five commits
+pipelines:
+  default:
+    - step:
+        caches:
+          - docker
+          - composer
+        services:
+          - docker
+        script: # Modify the commands below to build your repository.
+          - mkdir -p docker/data/php/composer && chmod 777 docker/data/php/composer
+          - cp ./.env.example .env
+          - cp ./config/.env.docker ./config/.env
+          - docker-compose run -T php sh -c "composer install && composer check"
+definitions:
+  caches:
+    composer: docker/data/php/composer
