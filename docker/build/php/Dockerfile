@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.7
+FROM php:7.4-fpm-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 #COPY php.ini /usr/local/etc/php/
@@ -18,17 +18,18 @@ RUN apk --no-cache update && \
     make \
     autoconf \
     openssl \
-    nodejs-npm \
+    npm \
     bash \
     unzip \
     vim \
     git \
+    oniguruma-dev \
+    libzip-dev \
     rsync
 
 RUN docker-php-ext-configure gd \
-    --with-freetype-dir=/usr/include/ \
-    --with-jpeg-dir=/usr/include/ \
-    --with-png-dir=/usr/include/ \
+    --with-freetype=/usr/include/ \
+    --with-jpeg=/usr/include/ \
   && docker-php-ext-install -j$(nproc) \
     curl \
     dom \
