@@ -1,0 +1,47 @@
+@startuml
+
+entity "ユーザーテーブル" as customer {
+    + ユーザーID [PK]
+    --
+    username
+    email
+    password
+}
+
+entity "イベントテーブル" as event {
+    + イベントID [PK]
+    --
+    name
+}
+
+entity "開催日テーブル" as event_date {
+    + 開催日ID [PK]
+    --
+    イベントID [FK]
+    開催日
+}
+
+entity "予約枠テーブル" as reservation_frame {
+    + 予約枠ID [PK]
+    --
+    開催日ID [FK]
+    予約枠数(max)
+    残数
+    開始時間(time)
+    終了時間(time)
+    バージョン(version)
+}
+
+entity "予約テーブル" as reservation {
+    + 予約ID [PK]
+    --
+    予約枠ID [FK]
+    ユーザーID [FK]
+}
+
+event --|{ event_date
+event_date --|{ reservation_frame
+reservation_frame --|{ reservation
+customer --|{ reservation
+
+@enduml
