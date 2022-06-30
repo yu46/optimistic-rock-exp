@@ -64,6 +64,8 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('AdminLTE');
+        $this->addPlugin('MyAdminLTE');
     }
 
     /**
