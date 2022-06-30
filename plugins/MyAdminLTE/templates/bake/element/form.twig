@@ -1,0 +1,85 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+<?php
+$this->assign('title', __('{{ action|humanize }} {0}', __('{{ singularHumanName }}')));
+$this->Breadcrumbs->add([
+    ['title' => __('List of {0}', __('{{ pluralHumanName }}')), 'url' => ['action' => 'index']],
+    ['title' => $this->fetch('title'), 'url' => null],
+]);
+?>
+{% set fields = Bake.filterFields(fields, schema, modelObject) %}
+<div class="row">
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <?php echo $this->Form->create(${{ singularVar }}, ['role' => 'form', 'novalidate' => true]); ?>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo __('Form'); ?></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <table class="table table-bordered">
+{% for field in fields %}
+    {%- if field not in primaryKey %}
+        {%- if keyFields[field] is defined %}
+            {%- set fieldData = Bake.columnData(field, schema) %}
+            {%- if fieldData.null %}
+                <tr>
+                    <th><?php echo $this->Form->label('{{ field }}'); ?></th>
+                    <td><?php echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'empty' => true]); ?>
+                    </td>
+                </tr>
+            {%- else %}
+                <tr>
+                    <th><?php echo $this->Form->label('{{ field }}'); ?></th>
+                    <td><?php echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}]); ?>
+                    </td>
+                </tr>
+            {%- endif %}
+        {%- elseif field not in ['created', 'modified', 'updated'] %}
+            {%- set fieldData = Bake.columnData(field, schema) %}
+            {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+                <tr>
+                    <th><?php echo $this->Form->label('{{ field }}'); ?></th>
+                    <td><?php echo $this->Form->control('{{ field }}', ['empty' => true]); ?>
+                    </td>
+                </tr>
+            {%- else %}
+                <tr>
+                    <th><?php echo $this->Form->label('{{ field }}'); ?></th>
+                    <td><?php echo $this->Form->control('{{ field }}'); ?>
+                    </td>
+                </tr>
+            {%- endif %}
+        {%- endif %}
+    {%- endif %}
+{%- endfor %}
+                </table>
+            </div>
+            <div class="box-footer text-center">
+                <?php echo $this->Form->button(__('Confirm'), [
+                    'type' => 'submit',
+                    'name' => 'confirm',
+                    'class' => 'btn btn-success']); ?>
+            </div>
+        </div>
+        <!-- /.box -->
+        <?= $this->Form->end() ?>
+    </div>
+    <!-- /.col-md-12 -->
+</div>
+<!-- /.row -->
