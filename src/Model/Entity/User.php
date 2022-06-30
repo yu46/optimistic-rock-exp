@@ -46,7 +46,7 @@ class User extends Entity
 
     /**
      * @param  string  $password  password
-     * @return false|string
+     * @return false|string|void
      */
     protected function _setPassword(string $password)
     {
