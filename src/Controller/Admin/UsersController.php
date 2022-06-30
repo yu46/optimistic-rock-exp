@@ -84,14 +84,14 @@ class UsersController extends AdminBaseController
         $this->request->allowMethod(['get', 'post']);
         $this->viewBuilder()->setLayout('login');
         $result = $this->Authentication->getResult();
-        if ($result->isValid()) {
+        if ($result && $result->isValid()) {
             $redirect = $this->Authentication->getLoginRedirect() ??
                 ['controller' => 'Dashboards', 'action' => 'index'];
 
             return $this->redirect($redirect);
         }
 
-        if ($this->request->is('post') && !$result->isValid()) {
+        if ($this->request->is('post')) {
             $this->Flash->error(__('Invalid username or password'));
         }
     }
