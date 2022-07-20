@@ -56,6 +56,10 @@ return static function (RouteBuilder $routes) {
             $builder->connect('/', ['controller' => 'Dashboards', 'action' => 'index']);
 
             $builder->fallbacks(DashedRoute::class);
+
+            $builder->prefix('api', function (RouteBuilder $builder) {
+                $builder->fallbacks(DashedRoute::class);
+            });
         });
 
         /*

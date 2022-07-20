@@ -185,7 +185,7 @@ class FormHelper extends CakeFormHelper
                 if ($val !== null) {
                     return $val;
                 }
-            } elseif($valuesSource === 'searchQuery') {
+            } elseif ($valuesSource === 'searchQuery') {
                 $searchQuery = $this->_View->getRequest()->getAttribute('searchQuery');
                 $value = Hash::get($searchQuery, $fieldname, null);
                 if ($value !== null) {
