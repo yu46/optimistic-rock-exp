@@ -21,7 +21,7 @@ entity "開催日テーブル" as event_date {
     開催日
 }
 
-entity "予約枠テーブル" as reservation_frame {
+entity "予約枠テーブル" as reservation_slot {
     + 予約枠ID [PK]
     --
     開催日ID [FK]
@@ -40,8 +40,8 @@ entity "予約テーブル" as reservation {
 }
 
 event --|{ event_date
-event_date --|{ reservation_frame
-reservation_frame --|{ reservation
+event_date --|{ reservation_slot
+reservation_slot --|{ reservation
 customer --|{ reservation
 
 @enduml
