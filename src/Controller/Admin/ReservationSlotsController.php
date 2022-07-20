@@ -68,24 +68,4 @@ class ReservationSlotsController extends AdminBaseController
 
         return $this->redirect(['action' => 'index']);
     }
-
-    /**
-     * @param  string  $eventId  event_id
-     * @return void
-     */
-    public function dates(string $eventId)
-    {
-        $this->viewBuilder()
-            ->setClassName('Json');
-        $this->set('_serialize', 'response');
-
-        $EventDates = $this->fetchTable('EventDates');
-        $dates = $EventDates
-            ->find()
-            ->where([$EventDates->aliasField('event_id') => $eventId])
-            ->orderAsc($EventDates->aliasField('date'))
-            ->toArray();
-
-        $this->set(['response' => $dates]);
-    }
 }

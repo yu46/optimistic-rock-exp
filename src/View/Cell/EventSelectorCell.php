@@ -15,7 +15,7 @@ class EventSelectorCell extends Cell
      * List of valid options that can be passed into this
      * cell's constructor.
      *
-     * @var array<string, mixed>
+     * @var array<string>
      */
     protected $_validCellOptions = [];
 
